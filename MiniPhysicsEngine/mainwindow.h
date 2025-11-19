@@ -1,23 +1,25 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
+#include "physicsworld.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
+namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
 private:
     Ui::MainWindow *ui;
+    PhysicsWorld* world; // pointer naar physics world
+    QTimer* timer;       // timer voor de simulatie
+
+public:
+    explicit MainWindow(PhysicsWorld* w, QWidget *parent = nullptr);
+    ~MainWindow();
+
+protected:
+    void paintEvent(QPaintEvent* event) override; // render de physics
 };
-#endif // MAINWINDOW_H

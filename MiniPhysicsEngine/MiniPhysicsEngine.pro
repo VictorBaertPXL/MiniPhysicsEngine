@@ -9,11 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    body.cpp \
+    box.cpp \
+    circle.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    physicsworld.cpp
 
 HEADERS += \
-    mainwindow.h
+    body.h \
+    box.h \
+    circle.h \
+    mainwindow.h \
+    physicsworld.h
 
 FORMS += \
     mainwindow.ui
