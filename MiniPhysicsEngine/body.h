@@ -1,6 +1,11 @@
 #ifndef BODY_H
 #define BODY_H
 
+// vraag 3: correct class
+// vraag 4: correct abstraction
+// vraag 5: correct encapsulation
+// vraag 8: correct base class
+// vraag 11: correct virtual function
 class Body {
 protected:
     float mass;

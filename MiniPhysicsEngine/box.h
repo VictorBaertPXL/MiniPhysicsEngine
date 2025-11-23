@@ -3,6 +3,9 @@
 
 #include "body.h"
 
+// vraag 3: correct class
+// vraag 6: correct inheritance
+// vraag 7: correct polymorphism
 class Box : public Body {
 private:
     float width, height;

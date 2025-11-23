@@ -2,6 +2,9 @@
 #include <vector>
 #include "body.h"
 
+// vraag 3: correct class
+// vraag 8: correct base class
+// vraag 9: correct object composition
 class PhysicsWorld {
 private:
     std::vector<Body*> bodies; // compositie: de world bezit de bodies
@@ -10,15 +13,9 @@ public:
     PhysicsWorld() = default;
     ~PhysicsWorld();
 
-    // Voeg een body toe aan de world
     void addBody(Body* body);
-
-    // Verwijder en delete een body
     void removeBody(Body* body);
-
-    // Simuleer één timestep
     void step(float dt);
 
-    // Getter voor alle bodies (const reference)
     const std::vector<Body*>& getBodies() const;
 };

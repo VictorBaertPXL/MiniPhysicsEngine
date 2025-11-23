@@ -5,7 +5,8 @@
 #include "box.h"
 #include "circle.h"
 
-
+// vraag 3: correct class
+// vraag 8: correct base class
 MainWindow::MainWindow(PhysicsWorld* w, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -13,11 +14,10 @@ MainWindow::MainWindow(PhysicsWorld* w, QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Timer voor physics update
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [this]() {
         world->step(0.016f); // dt ~16ms (60 FPS)
-        update();            // repaint
+        update();
     });
     timer->start(16); // ~60 Hz
 }
@@ -27,7 +27,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// Simpele render functie
+// vraag 3: correct class
+// vraag 7: correct polymorphism
 void MainWindow::paintEvent(QPaintEvent* /*event*/)
 {
     QPainter painter(this);
@@ -35,7 +36,6 @@ void MainWindow::paintEvent(QPaintEvent* /*event*/)
 
     const auto& bodies = world->getBodies();
     for (Body* body : bodies) {
-        // Probeer downcast
         if (Box* box = dynamic_cast<Box*>(body)) {
             painter.setBrush(Qt::blue);
             painter.drawRect(box->getX(), box->getY(), box->getWidth(), box->getHeight());

@@ -1,8 +1,9 @@
 #include "physicsworld.h"
 #include <algorithm>
 
+// vraag 3: correct class
+// vraag 9: correct object composition
 PhysicsWorld::~PhysicsWorld() {
-    // Zorg dat alle dynamically allocated bodies worden opgeruimd
     for (Body* body : bodies) {
         delete body;
     }
@@ -16,17 +17,17 @@ void PhysicsWorld::addBody(Body* body) {
 void PhysicsWorld::removeBody(Body* body) {
     auto it = std::find(bodies.begin(), bodies.end(), body);
     if (it != bodies.end()) {
-        delete *it;          // free memory
-        bodies.erase(it);    // verwijder uit vector
+        delete *it;
+        bodies.erase(it);
     }
 }
 
 void PhysicsWorld::step(float dt) {
     for (Body* body : bodies) {
-        body->applyForces(dt);  // polymorphic call
+        body->applyForces(dt);  // vraag 7: correct polymorphism
     }
     for (Body* body : bodies) {
-        body->integrate(dt);    // algemene integratie
+        body->integrate(dt);
     }
 }
 
