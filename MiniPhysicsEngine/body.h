@@ -26,10 +26,14 @@ public:
     // Setter voor positie (voor drag & drop)
     void setPosition(float newX, float newY) { x = newX; y = newY; }
 
-    // Forces
+    //Setters voor snelheid
+    void setVelocity(float newVX, float newVY) { vx = newVX; vy = newVY; }
+
+
+
     virtual void applyForces(float dt); // polymorfisme
 
-    // Integratie
+
     void integrate(float dt);
 
     virtual ~Body() = default; // altijd virtuele destructor voor polymorfisme

@@ -72,7 +72,6 @@ void MainWindow::mousePressEvent(QMouseEvent* event)
 void MainWindow::mouseMoveEvent(QMouseEvent* event)
 {
     if (selectedBody) {
-        // gebruik setter in plaats van directe toegang
         selectedBody->setPosition(event->pos().x() - dragOffset.x(),
                                   event->pos().y() - dragOffset.y());
         update(); // herteken
@@ -81,5 +80,8 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
 
 void MainWindow::mouseReleaseEvent(QMouseEvent* /*event*/)
 {
+    if (selectedBody) {
+        selectedBody->setVelocity(0, 0); // stop direct
+    }
     selectedBody = nullptr; // loslaten
 }
