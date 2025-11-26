@@ -23,6 +23,9 @@ public:
     float getVY() const;
     float getMass() const;
 
+    // Setter voor positie (voor drag & drop)
+    void setPosition(float newX, float newY) { x = newX; y = newY; }
+
     // Forces
     virtual void applyForces(float dt); // polymorfisme
 

@@ -5,8 +5,6 @@
 #include "box.h"
 #include "circle.h"
 
-// vraag 3: correct class
-// vraag 8: correct base class
 MainWindow::MainWindow(PhysicsWorld* w, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -27,8 +25,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// vraag 3: correct class
-// vraag 7: correct polymorphism
 void MainWindow::paintEvent(QPaintEvent* /*event*/)
 {
     QPainter painter(this);
@@ -47,4 +43,43 @@ void MainWindow::paintEvent(QPaintEvent* /*event*/)
                                 circle->getRadius()*2);
         }
     }
+}
+
+// ---------------- Mouse Drag & Drop ----------------
+
+void MainWindow::mousePressEvent(QMouseEvent* event)
+{
+    const auto& bodies = world->getBodies();
+    for (Body* body : bodies) {
+        if (Box* box = dynamic_cast<Box*>(body)) {
+            QRectF rect(box->getX(), box->getY(), box->getWidth(), box->getHeight());
+            if (rect.contains(event->pos())) {
+                selectedBody = box;
+                dragOffset = event->pos() - QPointF(box->getX(), box->getY());
+                break;
+            }
+        } else if (Circle* circle = dynamic_cast<Circle*>(body)) {
+            QPointF center(circle->getX(), circle->getY());
+            if (QLineF(center, event->pos()).length() <= circle->getRadius()) {
+                selectedBody = circle;
+                dragOffset = event->pos() - center;
+                break;
+            }
+        }
+    }
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent* event)
+{
+    if (selectedBody) {
+        // gebruik setter in plaats van directe toegang
+        selectedBody->setPosition(event->pos().x() - dragOffset.x(),
+                                  event->pos().y() - dragOffset.y());
+        update(); // herteken
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent* /*event*/)
+{
+    selectedBody = nullptr; // loslaten
 }
