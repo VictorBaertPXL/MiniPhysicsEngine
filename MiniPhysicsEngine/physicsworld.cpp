@@ -1,8 +1,6 @@
 #include "physicsworld.h"
 #include <algorithm>
 
-// vraag 3: correct class
-// vraag 9: correct object composition
 PhysicsWorld::~PhysicsWorld() {
     for (Body* body : bodies) {
         delete body;
@@ -22,12 +20,13 @@ void PhysicsWorld::removeBody(Body* body) {
     }
 }
 
-void PhysicsWorld::step(float dt) {
+// vraag 7: correct polymorphism
+void PhysicsWorld::step(float dt, int windowWidth, int windowHeight) {
     for (Body* body : bodies) {
-        body->applyForces(dt);  // vraag 7: correct polymorphism
+        body->applyForces(dt);
     }
     for (Body* body : bodies) {
-        body->integrate(dt);
+        body->integrate(dt, windowWidth, windowHeight);
     }
 }
 

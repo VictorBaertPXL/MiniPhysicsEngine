@@ -12,5 +12,5 @@ float Box::getHeight() const { return height; }
 
 // vraag 7: correct polymorphism
 void Box::applyForces(float dt) {
-    ay += 9.81f; // m/s^2 naar beneden
+    ay += 9.81f; // m/s^2 naar beneden (aarde)
 }

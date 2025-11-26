@@ -23,18 +23,17 @@ public:
     float getVY() const;
     float getMass() const;
 
-    // Setter voor positie (voor drag & drop)
-    void setPosition(float newX, float newY) { x = newX; y = newY; }
+    // Setters voor drag & drop
+    void setX(float newX) { x = newX; }
+    void setY(float newY) { y = newY; }
+    void setVX(float newVX) { vx = newVX; }
+    void setVY(float newVY) { vy = newVY; }
 
-    //Setters voor snelheid
-    void setVelocity(float newVX, float newVY) { vx = newVX; vy = newVY; }
-
-
-
+    // Forces
     virtual void applyForces(float dt); // polymorfisme
 
-
-    void integrate(float dt);
+    // Integratie
+    void integrate(float dt, float windowWidth, float windowHeight);
 
     virtual ~Body() = default; // altijd virtuele destructor voor polymorfisme
 };

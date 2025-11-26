@@ -19,12 +19,34 @@ void Body::applyForces(float dt) {
     // kan overschreven worden door Box/Circle
 }
 
-// Integratie met Euler methode
-void Body::integrate(float dt) {
+// Integratie met Euler methode + border detectie
+void Body::integrate(float dt, float windowWidth, float windowHeight) {
+    // update snelheid
     vx += ax * dt;
     vy += ay * dt;
+
+    // update positie
     x += vx * dt;
     y += vy * dt;
+
+    // reset acceleratie
     ax = 0;
     ay = 0;
+
+    // Borders: botsing met window
+    if (x < 0) {
+        x = 0;
+        vx = 0;
+    } else if (x > windowWidth) {
+        x = windowWidth;
+        vx = 0;
+    }
+
+    if (y < 0) {
+        y = 0;
+        vy = 0;
+    } else if (y > windowHeight) {
+        y = windowHeight;
+        vy = 0;
+    }
 }

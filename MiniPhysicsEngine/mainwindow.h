@@ -2,7 +2,8 @@
 
 #include <QMainWindow>
 #include <QMouseEvent>
-#include <QPointF>
+#include <QPoint>
+#include <QTimer>
 #include "physicsworld.h"
 
 QT_BEGIN_NAMESPACE
@@ -18,8 +19,9 @@ private:
     PhysicsWorld* world; // pointer naar physics world
     QTimer* timer;       // timer voor de simulatie
 
-    Body* selectedBody = nullptr;  // object dat we slepen
-    QPointF dragOffset;            // offset tussen muis en object
+    // Drag & Drop
+    Body* dragBody = nullptr;
+    QPoint dragOffset;
 
 public:
     explicit MainWindow(PhysicsWorld* w, QWidget *parent = nullptr);
@@ -27,7 +29,6 @@ public:
 
 protected:
     void paintEvent(QPaintEvent* event) override;
-
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
