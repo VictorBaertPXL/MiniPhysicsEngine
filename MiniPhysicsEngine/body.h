@@ -9,9 +9,13 @@
 class Body {
 protected:
     float mass;
-    float x, y;    // positie
+    float x, y;    // positie (Box: linkeronderhoek; Circle: centrum)
     float vx, vy;  // snelheid
     float ax, ay;  // versnelling
+
+    // fysische eigenschappen
+    float restitution; // bounciness (0..1)
+    float friction;    // simpele coulomb/approx
 
 public:
     Body(float x, float y, float mass);
@@ -23,11 +27,16 @@ public:
     float getVY() const;
     float getMass() const;
 
-    // Setters voor drag & drop
-    void setX(float newX) { x = newX; }
-    void setY(float newY) { y = newY; }
-    void setVX(float newVX) { vx = newVX; }
-    void setVY(float newVY) { vy = newVY; }
+    // Setters (voor drag & drop en collision response)
+    void setX(float newX);
+    void setY(float newY);
+    void setVX(float newVX);
+    void setVY(float newVY);
+
+    float getRestitution() const;
+    float getFriction() const;
+    void setRestitution(float r);
+    void setFriction(float f);
 
     // Forces
     virtual void applyForces(float dt); // polymorfisme

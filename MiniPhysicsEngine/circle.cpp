@@ -11,5 +11,5 @@ float Circle::getRadius() const { return radius; }
 
 // vraag 7: correct polymorphism
 void Circle::applyForces(float dt) {
-    ay += 9.81f; // m/s^2 naar beneden
+    ay += 100.0f;
 }

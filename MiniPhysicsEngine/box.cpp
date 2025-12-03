@@ -12,5 +12,6 @@ float Box::getHeight() const { return height; }
 
 // vraag 7: correct polymorphism
 void Box::applyForces(float dt) {
-    ay += 9.81f; // m/s^2 naar beneden (aarde)
+    // default gravity pointing down in pixels/s^2 (user used ~100 in your code)
+    ay += 100.0f; // you chose large value earlier — keep it consistent
 }
