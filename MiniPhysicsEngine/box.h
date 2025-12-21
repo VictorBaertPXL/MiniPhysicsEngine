@@ -3,20 +3,31 @@
 
 #include "body.h"
 
-// vraag 3: correct class
-// vraag 6: correct inheritance
-// vraag 7: correct polymorphism
 class Box : public Body {
 private:
-    float width, height;
+    float width;
+    float height;
 
 public:
-    Box(float x, float y, float mass, float width, float height);
+    Box()
+        : Box(0.0f, 0.0f, 1.0f, 10.0f, 10.0f)
+    {}
 
-    float getWidth() const;
+    // const references added
+    Box(float x, float y, float mass, const float& width, const float& height);
+
+    Box(const Box& other)
+        : Body(other),
+        width(other.width),
+        height(other.height)
+    {}
+
+    ~Box() override {}
+
+    inline float getWidth() const { return width; }
     float getHeight() const;
 
-    void applyForces(float dt) override; // override van Body
+    void applyForces(float dt = 1.0f) override;
 };
 
-#endif
+#endif // BOX_H

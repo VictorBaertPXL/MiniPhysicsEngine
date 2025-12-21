@@ -1,37 +1,29 @@
-#pragma once
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QMouseEvent>
-#include <QPoint>
-#include <QTimer>
 #include "physicsworld.h"
+#include "body.h"
+#include "circle.h"
+#include "box.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-// vraag 3: correct class
-// vraag 8: correct base class
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 private:
-    Ui::MainWindow *ui;
-    PhysicsWorld* world; // pointer naar physics world
-    QTimer* timer;       // timer voor de simulatie
-
-    // Drag & Drop
+    PhysicsWorld* world = nullptr;
     Body* dragBody = nullptr;
-    QPoint dragOffset;
 
 public:
     explicit MainWindow(PhysicsWorld* w, QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
-    void paintEvent(QPaintEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
+    void paintEvent(QPaintEvent*) override;
+    void mousePressEvent(QMouseEvent*) override;
+    void mouseMoveEvent(QMouseEvent*) override;
+    void mouseReleaseEvent(QMouseEvent*) override;
 };
+
+#endif // MAINWINDOW_H

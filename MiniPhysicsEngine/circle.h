@@ -3,19 +3,28 @@
 
 #include "body.h"
 
-// vraag 3: correct class
-// vraag 6: correct inheritance
-// vraag 7: correct polymorphism
 class Circle : public Body {
 private:
     float radius;
 
 public:
-    Circle(float x, float y, float mass, float radius);
+    Circle()
+        : Circle(0.0f, 0.0f, 1.0f, 10.0f)
+    {}
 
-    float getRadius() const;
+    // const reference added
+    Circle(float x, float y, float mass, const float& radius);
 
-    void applyForces(float dt) override; // override van Body
+    Circle(const Circle& other)
+        : Body(other),
+        radius(other.radius)
+    {}
+
+    ~Circle() override {}
+
+    inline float getRadius() const { return radius; }
+
+    void applyForces(float dt = 1.0f) override;
 };
 
-#endif
+#endif // CIRCLE_H

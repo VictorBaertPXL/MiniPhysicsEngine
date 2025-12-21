@@ -1,50 +1,48 @@
 #ifndef BODY_H
 #define BODY_H
 
-// vraag 3: correct class
-// vraag 4: correct abstraction
-// vraag 5: correct encapsulation
-// vraag 8: correct base class
-// vraag 11: correct virtual function
+#include <string>
+
 class Body {
 protected:
+    float x, y;
+    float vx, vy;
+    float ax, ay;
     float mass;
-    float x, y;    // positie (Box: linkeronderhoek; Circle: centrum)
-    float vx, vy;  // snelheid
-    float ax, ay;  // versnelling
 
-    // fysische eigenschappen
-    float restitution; // bounciness (0..1)
-    float friction;    // simpele coulomb/approx
+    bool isStatic;
+    bool isCollidable;
+
+    std::string name;
 
 public:
     Body(float x, float y, float mass);
+    Body(const Body& other);
+    virtual ~Body();
 
-    // Getters
     float getX() const;
     float getY() const;
     float getVX() const;
     float getVY() const;
     float getMass() const;
 
-    // Setters (voor drag & drop en collision response)
-    void setX(float newX);
-    void setY(float newY);
-    void setVX(float newVX);
-    void setVY(float newVY);
+    bool getIsStatic() const;
+    bool getIsCollidable() const;
 
-    float getRestitution() const;
-    float getFriction() const;
-    void setRestitution(float r);
-    void setFriction(float f);
+    void setIsStatic(bool v);
+    void setIsCollidable(bool v);
 
-    // Forces
-    virtual void applyForces(float dt); // polymorfisme
+    void setX(float v);
+    void setY(float v);
+    void setVX(float v);
+    void setVY(float v);
 
-    // Integratie
+    void setName(const std::string& n);
+    const std::string& getName() const;
+
+    virtual void applyForces(float dt = 1.0f) = 0;
+
     void integrate(float dt, float windowWidth, float windowHeight);
-
-    virtual ~Body() = default; // altijd virtuele destructor voor polymorfisme
 };
 
-#endif
+#endif // BODY_H

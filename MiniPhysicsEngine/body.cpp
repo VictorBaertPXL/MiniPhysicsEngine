@@ -3,86 +3,70 @@
 #include "circle.h"
 #include <algorithm>
 
-// Constructor
 Body::Body(float x, float y, float mass)
-    : mass(mass), x(x), y(y), vx(0), vy(0), ax(0), ay(0),
-    restitution(0.6f), friction(0.1f)
+    : x(x), y(y),
+    vx(0.0f), vy(0.0f),
+    ax(0.0f), ay(0.0f),
+    mass(mass),
+    isStatic(false),
+    isCollidable(true),
+    name("Unnamed")
 {}
 
-// Getters
+Body::Body(const Body& other)
+    : x(other.x), y(other.y),
+    vx(other.vx), vy(other.vy),
+    ax(other.ax), ay(other.ay),
+    mass(other.mass),
+    isStatic(other.isStatic),
+    isCollidable(other.isCollidable),
+    name(other.name)
+{}
+
+Body::~Body() {}
+
 float Body::getX() const { return x; }
 float Body::getY() const { return y; }
 float Body::getVX() const { return vx; }
 float Body::getVY() const { return vy; }
 float Body::getMass() const { return mass; }
 
-// Setters
-void Body::setX(float newX) { x = newX; }
-void Body::setY(float newY) { y = newY; }
-void Body::setVX(float newVX) { vx = newVX; }
-void Body::setVY(float newVY) { vy = newVY; }
+bool Body::getIsStatic() const { return isStatic; }
+bool Body::getIsCollidable() const { return isCollidable; }
 
-float Body::getRestitution() const { return restitution; }
-float Body::getFriction() const { return friction; }
-void Body::setRestitution(float r) { restitution = r; }
-void Body::setFriction(float f) { friction = f; }
+void Body::setIsStatic(bool v) { isStatic = v; }
+void Body::setIsCollidable(bool v) { isCollidable = v; }
 
-// Forces (virtual)
-void Body::applyForces(float dt) {
-    // default: niets (afgeleiden zetten zwaartekracht)
-}
+void Body::setX(float v) { x = v; }
+void Body::setY(float v) { y = v; }
+void Body::setVX(float v) { vx = v; }
+void Body::setVY(float v) { vy = v; }
 
-// Integratie met Euler methode + border detectie op echte omtrek
+void Body::setName(const std::string& n) { name = n; }
+const std::string& Body::getName() const { return name; }
+
 void Body::integrate(float dt, float windowWidth, float windowHeight) {
-    // Update snelheid
+    if (isStatic) return;
+
     vx += ax * dt;
     vy += ay * dt;
 
-    // Update positie
     x += vx * dt;
     y += vy * dt;
 
-    // Reset acceleratie
-    ax = 0;
-    ay = 0;
+    ax = 0.0f;
+    ay = 0.0f;
 
-    // Border botsingen afhankelijk van type object
     if (Box* box = dynamic_cast<Box*>(this)) {
-        // linkeronderhoek (x, y) is linksonder
-        if (box->getX() < 0) {
-            x = 0;
-            vx = 0;
-        }
-        if (box->getY() < box->getHeight()) {
-            y = box->getHeight();
-            vy = 0;
-        }
-        if (box->getX() + box->getWidth() > windowWidth) {
-            x = windowWidth - box->getWidth();
-            vx = 0;
-        }
-        if (box->getY() > windowHeight) {
-            y = windowHeight;
-            vy = 0;
-        }
+        if (x < 0.0f) { x = 0.0f; vx = 0.0f; }
+        if (y < box->getHeight()) { y = box->getHeight(); vy = 0.0f; }
+        if (x + box->getWidth() > windowWidth) { x = windowWidth - box->getWidth(); vx = 0.0f; }
+        if (y > windowHeight) { y = windowHeight; vy = 0.0f; }
     }
-    else if (Circle* circle = dynamic_cast<Circle*>(this)) {
-        // (x, y) is middelpunt
-        if (x - circle->getRadius() < 0) {
-            x = circle->getRadius();
-            vx = 0;
-        }
-        if (y - circle->getRadius() < 0) {
-            y = circle->getRadius();
-            vy = 0;
-        }
-        if (x + circle->getRadius() > windowWidth) {
-            x = windowWidth - circle->getRadius();
-            vx = 0;
-        }
-        if (y + circle->getRadius() > windowHeight) {
-            y = windowHeight - circle->getRadius();
-            vy = 0;
-        }
+    else if (Circle* c = dynamic_cast<Circle*>(this)) {
+        if (x - c->getRadius() < 0.0f) { x = c->getRadius(); vx = 0.0f; }
+        if (y - c->getRadius() < 0.0f) { y = c->getRadius(); vy = 0.0f; }
+        if (x + c->getRadius() > windowWidth) { x = windowWidth - c->getRadius(); vx = 0.0f; }
+        if (y + c->getRadius() > windowHeight) { y = windowHeight - c->getRadius(); vy = 0.0f; }
     }
 }
